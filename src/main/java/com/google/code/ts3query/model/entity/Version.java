@@ -1,8 +1,6 @@
 package com.google.code.ts3query.model.entity;
 
-import com.google.code.ts3query.model.Entity;
-
-public class Version extends Entity {
+public class Version {
 
 	private String platform;
 	private String build;

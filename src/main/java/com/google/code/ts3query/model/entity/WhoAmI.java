@@ -1,8 +1,6 @@
 package com.google.code.ts3query.model.entity;
 
-import com.google.code.ts3query.model.Entity;
-
-public class WhoAmI extends Entity {
+public class WhoAmI {
 
 	private int virtualserver_id;
 	private String client_unique_identifier;
