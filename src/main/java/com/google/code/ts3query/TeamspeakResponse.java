@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import com.google.code.ts3query.model.ManagedEntity;
 
 /**
@@ -66,10 +68,14 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 	 *            the type of the model class
 	 * @param clazz
 	 *            the model class
+	 * 
+	 * @param keysToIgnore
+	 *            name of keys to ignore when popuating the object
+	 * 
 	 * @return a list of instances of the model class populated with data from
 	 *         this response
 	 */
-	public <T> List<T> asList(final Class<T> clazz) {
+	public <T> List<T> asList(final Class<T> clazz, final String... keysToIgnore) {
 		final List<T> result = new ArrayList<T>(response == null ? 0 : response.size());
 
 		if (response == null) {
@@ -77,13 +83,13 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 		}
 
 		for (final Map<String, String> entries : response) {
-			result.add(create(clazz, entries));
+			result.add(create(clazz, entries, keysToIgnore));
 		}
 
 		return result;
 	}
-	
-	public <E extends ManagedEntity<Manager>, Manager> List<E> asManagedList(final Class<E> clazz, final Manager manager) {
+
+	public <E extends ManagedEntity<Manager>, Manager> List<E> asManagedList(final Class<E> clazz, final Manager manager, final String... keysToIgnore) {
 		final List<E> result = new ArrayList<E>(response == null ? 0 : response.size());
 
 		if (response == null) {
@@ -91,10 +97,10 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 		}
 
 		for (final Map<String, String> entries : response) {
-			final E entity = create(clazz, entries);
+			final E entity = create(clazz, entries, keysToIgnore);
 			result.add(ManagedEntity.manage(entity, manager));
 		}
-		
+
 		return result;
 	}
 
@@ -108,10 +114,13 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 	 *            the type of the model class
 	 * @param clazz
 	 *            the model class
+	 * @param keysToIgnore
+	 *            name of keys to ignore when popuating the object
+	 * 
 	 * @return an instance of the model class populated with data from this
 	 *         response
 	 */
-	public <T> T as(final Class<T> clazz) {
+	public <T> T as(final Class<T> clazz, final String... keysToIgnore) {
 		if (response == null) {
 			return null;
 		}
@@ -120,7 +129,7 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 		if (lines > 1) {
 			throw new IllegalStateException("There are  " + lines + " lines");
 		}
-		return create(clazz, getFirstResponse());
+		return create(clazz, getFirstResponse(), keysToIgnore);
 	}
 
 	/**
@@ -132,11 +141,14 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 	 *            the class
 	 * @param entries
 	 *            a mapping of field names to values
+	 * @param keysToIgnore
+	 *            name of keys to ignore when popuating the object
+	 * 
 	 * @return an instance of the class populated with the provided data
 	 */
-	private <T> T create(final Class<T> clazz, final Map<String, String> entries) {
+	private <T> T create(final Class<T> clazz, final Map<String, String> entries, final String... keysToIgnore) {
 		try {
-			return populate(clazz.newInstance(), entries);
+			return populate(clazz.newInstance(), entries, keysToIgnore);
 		} catch (final Exception ex) {
 			throw new RuntimeException(ex);
 		}
@@ -156,6 +168,10 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 	 *            the object to populate
 	 * @param entries
 	 *            the mapping of field names to values
+	 * 
+	 * @param keysToIgnore
+	 *            name of keys to ignore when popuating the object
+	 * 
 	 * @return the populated object
 	 * 
 	 * @throws IllegalArgumentException
@@ -163,11 +179,16 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 	 * @throws Exception
 	 *             when reflection doesn't work as expected
 	 */
-	private <T> T populate(final T obj, final Map<String, String> entries) throws Exception {
+	private <T> T populate(final T obj, final Map<String, String> entries, final String... keysToIgnore)
+			throws Exception {
 		final Class<?> clazz = obj.getClass();
 		for (final Entry<String, String> entry : entries.entrySet()) {
 			final String key = entry.getKey();
 			final String value = entry.getValue();
+
+			if (ArrayUtils.contains(keysToIgnore, key)) {
+				continue;
+			}
 
 			final Field field = clazz.getDeclaredField(key);
 			field.setAccessible(true);
