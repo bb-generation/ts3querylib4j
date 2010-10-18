@@ -30,7 +30,7 @@ public class TeamspeakConnection implements Closeable {
 	/**
 	 * The various escape sequences for (un)escaping string values.
 	 */
-	private static final String[][] escapes = {
+	private static final String[][] ESCAPES = {
 	// from the TeamSpeak 3 ServerQuery Manual (2009-12-26)
 			{ "\\", "\\\\" }, // backslash
 			{ "/", "\\/" }, // slash
@@ -178,7 +178,7 @@ public class TeamspeakConnection implements Closeable {
 			return null;
 		}
 
-		for (final String[] escape : escapes) {
+		for (final String[] escape : ESCAPES) {
 			input = input.replace(escape[0], escape[1]);
 		}
 		return input;
@@ -196,7 +196,7 @@ public class TeamspeakConnection implements Closeable {
 			return null;
 		}
 
-		for (final String[] escape : escapes) {
+		for (final String[] escape : ESCAPES) {
 			input = input.replace(escape[1], escape[0]);
 		}
 		return input;
