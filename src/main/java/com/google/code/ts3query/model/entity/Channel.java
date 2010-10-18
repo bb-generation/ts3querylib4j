@@ -1,6 +1,7 @@
 package com.google.code.ts3query.model.entity;
 
 import com.google.code.ts3query.model.Entity;
+import com.google.code.ts3query.option.TargetMode;
 
 public class Channel extends Entity {
 
@@ -75,4 +76,10 @@ public class Channel extends Entity {
 		return total_clients;
 	}
 
+	/**
+	 * Send a message to this channel.
+	 */
+	public void sendMessage(final String message) {
+		server.sendTextMessage(TargetMode.channel, getId(), message);
+	}
 }

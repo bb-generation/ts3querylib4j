@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.google.code.ts3query.model.entity.Version;
 import com.google.code.ts3query.model.entity.WhoAmI;
+import com.google.code.ts3query.option.TargetMode;
 
 public class TeamspeakProtocol {
 
@@ -92,6 +93,21 @@ public class TeamspeakProtocol {
 	 */
 	public void quit() {
 		send(command("quit"));
+	}
+
+	/**
+	 * Sends a text message a specified target. The type of the target is
+	 * determined by targetmode while target specifies the ID of the recipient,
+	 * whether it be a virtual server, a channel or a client.
+	 * 
+	 * @param mode
+	 * @param targetId
+	 *            clientID|channelID|serverID, depending on target mode
+	 * @param message
+	 */
+	public void sendTextMessage(final TargetMode mode, final long targetId, final String message) {
+		send(command("sendtextmessage").with("targetmode", 1 + mode.ordinal()).with("target", targetId).with("msg",
+				message));
 	}
 
 	/**

@@ -7,6 +7,7 @@ import org.apache.commons.lang.time.DurationFormatUtils;
 import com.google.code.ts3query.model.ManagedEntity;
 import com.google.code.ts3query.model.manager.Complains;
 import com.google.code.ts3query.model.manager.VirtualServers;
+import com.google.code.ts3query.option.TargetMode;
 
 public class VirtualServer extends ManagedEntity<VirtualServers> {
 
@@ -109,5 +110,12 @@ public class VirtualServer extends ManagedEntity<VirtualServers> {
 	
 	public Complains getComplains() {
 		return serve(new Complains());
+	}
+	
+	/**
+	 * Send a message to this server.
+	 */
+	public void sendMessage(final String message) {
+		server.sendTextMessage(TargetMode.server, getId(), message);
 	}
 }

@@ -1,6 +1,7 @@
 package com.google.code.ts3query.model.entity;
 
 import com.google.code.ts3query.model.Entity;
+import com.google.code.ts3query.option.TargetMode;
 
 public class Client extends Entity {
 
@@ -30,4 +31,10 @@ public class Client extends Entity {
 		return cid;
 	}
 
+	/**
+	 * Send a message to this client.
+	 */
+	public void sendMessage(final String message) {
+		server.sendTextMessage(TargetMode.client, getClientId(), message);
+	}
 }
