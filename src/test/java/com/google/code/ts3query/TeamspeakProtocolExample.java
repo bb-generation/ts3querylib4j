@@ -21,7 +21,7 @@ public class TeamspeakProtocolExample {
 			server.use(1);
 
 			// get some information about ourselves and print it out
-			final WhoAmI me = server.whoami().as(WhoAmI.class);
+			final WhoAmI me = server.whoAmI();
 			System.err.println("I'm " + me.getClientNickname() + " connected as " + me.getClientLoginName()
 					+ " in channel #" + me.getClientChannelId() + " on server #" + me.getVirtualServerId());
 
