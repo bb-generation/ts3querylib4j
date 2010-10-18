@@ -2,9 +2,7 @@ package com.google.code.ts3query.model.entity;
 
 import java.util.Date;
 
-import com.google.code.ts3query.model.Entity;
-
-public class LogEntry extends Entity {
+public class LogEntry {
 
 	private Date timestamp;
 	private int level;
