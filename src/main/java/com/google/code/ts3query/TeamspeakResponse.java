@@ -206,6 +206,14 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 			} else if (type.equals(Date.class)) {
 				// value is seconds since epoch
 				field.set(obj, new Date(Long.parseLong(value) * 1000));
+			} else if (type.isEnum()) {
+				// map to enum value by ordinal
+				final Object[] enumConstants = type.getEnumConstants();
+				final int ordinal = Integer.parseInt(value);
+				if (ordinal > enumConstants.length) {
+					throw new IllegalArgumentException("Invalid ordinal for enum " + type.getName() + ": " + ordinal);
+				}
+				field.set(obj, enumConstants[ordinal]);
 			} else {
 				throw new IllegalArgumentException("Field " + field.getName() + " in class " + clazz
 						+ " has unknown type " + type + " for value " + value);
