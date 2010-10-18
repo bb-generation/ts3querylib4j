@@ -86,7 +86,7 @@ public class VirtualServers extends Entity {
 	// return send(command("serverlist").option((Object[])
 	// options)).asList(VirtualServer.class);
 	// } TODO
-	
+
 	public TeamspeakResponse getList() {
 		return send(command("serverlist"));
 	}
@@ -137,4 +137,22 @@ public class VirtualServers extends Entity {
 		return send(command("serverrequestconnectioninfo"));
 	}
 
+	/**
+	 * Displays a snapshot of the selected virtual server containing all
+	 * settings, groups and known client identities. The data from a server
+	 * snapshot can be used to restore a virtual servers configuration.
+	 */
+	public TeamspeakResponse createSnapshot() {
+		return send(command("serversnapshotcreate"));
+	}
+
+	/**
+	 * Restores the selected virtual servers configuration using the data from a
+	 * previously created server snapshot. Please note that the TeamSpeak 3
+	 * Server does NOT check for necessary permissions while deploying a
+	 * snapshot so the command could be abused to gain additional privileges.
+	 */
+	public void deploySnapshot(Map<String, Object> snapshot) {
+		send(command("serversnapshotdeploy").with(snapshot));
+	}
 }
