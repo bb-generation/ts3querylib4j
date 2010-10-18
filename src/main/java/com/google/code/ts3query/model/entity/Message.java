@@ -1,11 +1,9 @@
 package com.google.code.ts3query.model.entity;
 
-import com.google.code.ts3query.model.Entity;
+import com.google.code.ts3query.model.ManagedEntity;
 import com.google.code.ts3query.model.manager.Messages;
 
-public class Message extends Entity {
-
-	private transient Messages messages;
+public class Message extends ManagedEntity<Messages> {
 
 	private int msgid;
 	private String cluid;
@@ -29,10 +27,10 @@ public class Message extends Entity {
 	}
 
 	public void delete() {
-		messages.del(msgid);
+		manager.delete(msgid);
 	}
 
 	public void setFlag(final boolean read) {
-		messages.updateFlag(msgid, read);
+		manager.updateFlag(msgid, read);
 	}
 }

@@ -25,7 +25,7 @@ public class Messages extends Entity implements Iterable<Message> {
 	 * 
 	 * @param messageID
 	 */
-	public void del(final int messageID) {
+	public void delete(final int messageID) {
 		send(command("messagedel").with("msgid", messageID));
 	}
 
