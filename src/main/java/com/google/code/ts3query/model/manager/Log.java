@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.code.ts3query.model.Entity;
 import com.google.code.ts3query.model.entity.LogEntry;
+import com.google.code.ts3query.option.LogLevel;
 
 public class Log extends Entity {
 
@@ -14,11 +15,10 @@ public class Log extends Entity {
 	 * type of the entry.
 	 * 
 	 * @param loglevel
-	 *            1-4
 	 * @param logmsg
 	 */
-	public void add(final int loglevel, final String logmsg) {
-		send(command("logadd").with("loglevel", loglevel).with("logmsg", logmsg));
+	public void add(final LogLevel level, final String logmsg) {
+		send(command("logadd").with("loglevel", 1 + level.ordinal()).with("logmsg", logmsg));
 	}
 
 	/**
