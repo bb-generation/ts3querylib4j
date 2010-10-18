@@ -30,7 +30,6 @@ public class FileTransfers extends Entity implements Iterable<FileTransfer> {
 	 *            one more more file paths to delete
 	 */
 	public void deleteFile(final long channelID, final String channelPassword, final String... filePath) {
-		// ftdeletefile cid={channelID} cpw={channelPassword} name={filePath}...
 		send(command("ftdeletefile").with("cid", channelID).with("cpw", channelPassword).with("name", filePath));
 	}
 
@@ -44,11 +43,6 @@ public class FileTransfers extends Entity implements Iterable<FileTransfer> {
 	 *            one more more file paths to get information about
 	 */
 	public TeamspeakResponse getFileInfo(final long channelID, final String channelPassword, final String... filePath) {
-		// TODO this is tricky: first line contains extra "cid" and "path"
-		//
-		// cid=2 path=\/ name=Stuff size=0 datetime=1259415210 type=0|
-		// name=Pic1.PNG size=563783 datetime=1259425462 type=1|
-		// name=Pic2.PNG ...
 		return send(command("ftgetfileinfo").with("cid", channelID).with("cpw", channelPassword).with("name", filePath));
 	}
 
@@ -57,11 +51,6 @@ public class FileTransfers extends Entity implements Iterable<FileTransfer> {
 	 * file repository.
 	 */
 	public List<File> getFileList(final long channelID, final String channelPassword, final String filePath) {
-		// TODO this is tricky: first line contains extra "cid" and "path"
-		//
-		// cid=2 path=\/ name=Stuff size=0 datetime=1259415210 type=0|
-		// name=Pic1.PNG size=563783 datetime=1259425462 type=1|
-		// name=Pic2.PNG ...
 		return send(command("ftgetfilelist").with("cid", channelID).with("cpw", channelPassword).with("path", filePath))
 				.asList(File.class, "cid", "path");
 	}
