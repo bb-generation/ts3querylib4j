@@ -11,16 +11,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 public class TeamspeakConnection implements Closeable {
 
-	private static final Log log = LogFactory.getLog(TeamspeakConnection.class);
+	private static final Logger log = Logger.getLogger(TeamspeakConnection.class.getName());
 
 	/**
 	 * The signature line sent by the server to verify the connection.
@@ -122,7 +121,7 @@ public class TeamspeakConnection implements Closeable {
 				} else {
 					// error, throw an exception
 					final TeamspeakException ex = new TeamspeakException(id, first.get("msg"), first.get("extra_msg"));
-					log.error(command, ex);
+					log.log(Level.SEVERE, String.valueOf(command), ex);
 					throw ex;
 				}
 			} else {
@@ -207,13 +206,23 @@ public class TeamspeakConnection implements Closeable {
 	 */
 	@Override
 	public void close() throws IOException {
-		IOUtils.closeQuietly(input);
-		IOUtils.closeQuietly(output);
+		closeQuietly(input);
+		closeQuietly(output);
 		if (socket != null) {
 			socket.close();
 		}
 	}
 
+	private void closeQuietly(final Closeable c) {
+		try {
+			if (c != null) {
+				c.close();
+			}
+		} catch (final IOException e) {
+			// ignore
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this).append("host", socket.getInetAddress()).append("port", socket.getPort())
