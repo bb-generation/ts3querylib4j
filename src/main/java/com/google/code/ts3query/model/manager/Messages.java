@@ -16,7 +16,7 @@ public class Messages extends Entity implements Iterable<Message> {
 	 * @param subject
 	 * @param message
 	 */
-	public void add(final String clientUID, final String subject, final String message) {
+	public void add(String clientUID, String subject, String message) {
 		send(command("messageadd").with("cluid", clientUID).with("subject", subject).with("message", message));
 	}
 
@@ -25,7 +25,7 @@ public class Messages extends Entity implements Iterable<Message> {
 	 * 
 	 * @param messageID
 	 */
-	public void delete(final int messageID) {
+	public void delete(int messageID) {
 		send(command("messagedel").with("msgid", messageID));
 	}
 
@@ -36,7 +36,7 @@ public class Messages extends Entity implements Iterable<Message> {
 	 * 
 	 * @param messageID
 	 */
-	public Message get(final int messageID) {
+	public Message get(int messageID) {
 		return send(command("messageget").with("msgid", messageID)).as(Message.class);
 	}
 
@@ -60,7 +60,7 @@ public class Messages extends Entity implements Iterable<Message> {
 	 * @param messageID
 	 * @param read
 	 */
-	public void updateFlag(final int messageID, final boolean read) {
+	public void updateFlag(int messageID, boolean read) {
 		// TODO handle boolean in with()?
 		send(command("messageupdateflag").with("msgid", messageID).with("flag", read ? 1 : 0));
 	}

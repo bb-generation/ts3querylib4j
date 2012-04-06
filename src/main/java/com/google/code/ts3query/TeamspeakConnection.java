@@ -61,7 +61,7 @@ public class TeamspeakConnection implements Closeable {
 	 *            the host to connect to
 	 * @throws IOException
 	 */
-	public TeamspeakConnection(final String host) throws IOException {
+	public TeamspeakConnection(String host) throws IOException {
 		this(host, DEFAULT_PORT);
 	}
 
@@ -74,13 +74,13 @@ public class TeamspeakConnection implements Closeable {
 	 *            a custom server query port
 	 * @throws IOException
 	 */
-	public TeamspeakConnection(final String host, final int port) throws IOException {
+	public TeamspeakConnection(String host, int port) throws IOException {
 		this.socket = new Socket(host, port);
 		this.input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		this.output = new PrintStream(socket.getOutputStream());
 
 		// verify server signature
-		final String sig = input.readLine();
+		String sig = input.readLine();
 		if (!SERVER_SIGNATURE.equals(sig)) {
 			throw new IOException("Invalid server signature: " + sig);
 		}
@@ -97,7 +97,7 @@ public class TeamspeakConnection implements Closeable {
 	 *             an exception upon failed execution
 	 * @throws TeamspeakException
 	 */
-	public synchronized TeamspeakResponse execute(final TeamspeakCommand command) throws IOException,
+	public synchronized TeamspeakResponse execute(TeamspeakCommand command) throws IOException,
 			TeamspeakException {
 		output.println(command);
 
@@ -111,16 +111,16 @@ public class TeamspeakConnection implements Closeable {
 
 			// System.err.println("<< " + line);
 
-			final List<SortedMap<String, String>> parsed = parseLine(line);
+			List<SortedMap<String, String>> parsed = parseLine(line);
 
-			final Map<String, String> first = parsed.get(0);
+			Map<String, String> first = parsed.get(0);
 			if (first.containsKey("error")) {
-				final int id = Integer.parseInt(first.get("id"));
+				int id = Integer.parseInt(first.get("id"));
 				if (id == 0) {
 					break; // no error, stop reading
 				} else {
 					// error, throw an exception
-					final TeamspeakException ex = new TeamspeakException(id, first.get("msg"), first.get("extra_msg"));
+					TeamspeakException ex = new TeamspeakException(id, first.get("msg"), first.get("extra_msg"));
 					log.log(Level.SEVERE, String.valueOf(command), ex);
 					throw ex;
 				}
@@ -139,9 +139,9 @@ public class TeamspeakConnection implements Closeable {
 	/**
 	 * Parses a line of "block|block|block" into a list.
 	 */
-	private List<SortedMap<String, String>> parseLine(final String line) {
-		final List<SortedMap<String, String>> blocks = new ArrayList<SortedMap<String, String>>();
-		for (final String block : line.split("\\|")) {
+	private List<SortedMap<String, String>> parseLine(String line) {
+		List<SortedMap<String, String>> blocks = new ArrayList<SortedMap<String, String>>();
+		for (String block : line.split("\\|")) {
 			blocks.add(parseBlock(block));
 		}
 		return blocks;
@@ -150,13 +150,13 @@ public class TeamspeakConnection implements Closeable {
 	/**
 	 * Parses a block of "a=b c=d" into a map.
 	 */
-	private SortedMap<String, String> parseBlock(final String block) {
-		final SortedMap<String, String> params = new TreeMap<String, String>();
-		for (final String param : block.split(" ")) {
+	private SortedMap<String, String> parseBlock(String block) {
+		SortedMap<String, String> params = new TreeMap<String, String>();
+		for (String param : block.split(" ")) {
 			if (param.contains("=")) {
-				final String[] tokens = param.split("=");
-				final String key = tokens[0];
-				final String value = unescape(tokens[1]);
+				String[] tokens = param.split("=");
+				String key = tokens[0];
+				String value = unescape(tokens[1]);
 				params.put(key, value);
 			} else {
 				params.put(param, null);
@@ -177,7 +177,7 @@ public class TeamspeakConnection implements Closeable {
 			return null;
 		}
 
-		for (final String[] escape : ESCAPES) {
+		for (String[] escape : ESCAPES) {
 			input = input.replace(escape[0], escape[1]);
 		}
 		return input;
@@ -195,7 +195,7 @@ public class TeamspeakConnection implements Closeable {
 			return null;
 		}
 
-		for (final String[] escape : ESCAPES) {
+		for (String[] escape : ESCAPES) {
 			input = input.replace(escape[1], escape[0]);
 		}
 		return input;
@@ -213,12 +213,12 @@ public class TeamspeakConnection implements Closeable {
 		}
 	}
 
-	private void closeQuietly(final Closeable c) {
+	private void closeQuietly(Closeable c) {
 		try {
 			if (c != null) {
 				c.close();
 			}
-		} catch (final IOException e) {
+		} catch (IOException e) {
 			// ignore
 		}
 	}

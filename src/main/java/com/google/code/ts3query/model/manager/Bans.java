@@ -29,7 +29,7 @@ public class Bans extends Entity implements Iterable<Ban> {
 	 * @param reason
 	 *            optional, <code>null</code> to skip
 	 */
-	public void ban(final int clientID, final Long timeInSeconds, final String reason) {
+	public void ban(int clientID, Long timeInSeconds, String reason) {
 		send(command("banclient").with("clid", clientID).with("time", timeInSeconds).with("banreason", reason));
 	}
 	
@@ -43,8 +43,8 @@ public class Bans extends Entity implements Iterable<Ban> {
 	 * @param timeInSeconds
 	 * @param reason
 	 */
-	public void add(final String ipRegex, final String nameRegex, final String clientUID, final Long timeInSeconds,
-			final String reason) {
+	public void add(String ipRegex, String nameRegex, String clientUID, Long timeInSeconds,
+			String reason) {
 		send(command("banadd").with("ip", ipRegex).with("name", nameRegex).with("uid", clientUID).with("time",
 				timeInSeconds).with("banreason", reason));
 	}
@@ -54,7 +54,7 @@ public class Bans extends Entity implements Iterable<Ban> {
 	 * 
 	 * @param banID
 	 */
-	public void delete(final int banID) {
+	public void delete(int banID) {
 		send(command("bandel").with("banid", banID));
 	}
 

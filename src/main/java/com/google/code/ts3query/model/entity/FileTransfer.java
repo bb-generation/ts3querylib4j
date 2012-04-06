@@ -77,7 +77,7 @@ public class FileTransfer extends ManagedEntity<FileTransfers> {
 	 * @param delete
 	 *            <code>true</code> to delete the file on the server
 	 */
-	public void stop(final boolean delete) {
+	public void stop(boolean delete) {
 		manager.stop(getServerFileTransferId(), delete);
 	}
 }

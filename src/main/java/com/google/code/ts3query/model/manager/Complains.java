@@ -15,7 +15,7 @@ public class Complains extends Entity implements Iterable<Complain> {
 	 * @param targetClientDBID
 	 * @param message
 	 */
-	public void add(final long targetClientDBID, final String message) {
+	public void add(long targetClientDBID, String message) {
 		send(command("complainadd").with("tcldbid", targetClientDBID).with("message", message));
 	}
 
@@ -26,7 +26,7 @@ public class Complains extends Entity implements Iterable<Complain> {
 	 * @param targetClientDBID
 	 * @param fromClientDBID
 	 */
-	public void delete(final long targetClientDBID, final long fromClientDBID) {
+	public void delete(long targetClientDBID, long fromClientDBID) {
 		send(command("complaindel").with("tcldbid", targetClientDBID).with("fcldbid", fromClientDBID));
 	}
 
@@ -36,7 +36,7 @@ public class Complains extends Entity implements Iterable<Complain> {
 	 * 
 	 * @param targetClientDBID
 	 */
-	public void deleteAll(final long targetClientDBID) {
+	public void deleteAll(long targetClientDBID) {
 		send(command("complaindelall").with("tcldbid", targetClientDBID));
 	}
 
@@ -44,7 +44,7 @@ public class Complains extends Entity implements Iterable<Complain> {
 		return getList(null);
 	}
 
-	public List<Complain> getList(final Long targetClientDBID) {
+	public List<Complain> getList(Long targetClientDBID) {
 		return send(command("complainlist").with("tcldbid", targetClientDBID)).asManagedList(Complain.class, this);
 	}
 

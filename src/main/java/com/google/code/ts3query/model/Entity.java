@@ -22,16 +22,16 @@ public abstract class Entity {
 	 *            the server instance to serve
 	 * @return the served entity
 	 */
-	public <E extends Entity> E serve(final E entity) {
+	public <E extends Entity> E serve(E entity) {
 		entity.server = server;
 		return entity;
 	}
 
-	protected static TeamspeakCommand command(final String keyword) {
+	protected static TeamspeakCommand command(String keyword) {
 		return new TeamspeakCommand(keyword);
 	}
 
-	protected TeamspeakResponse send(final TeamspeakCommand command) {
+	protected TeamspeakResponse send(TeamspeakCommand command) {
 		return server.send(command);
 	}
 

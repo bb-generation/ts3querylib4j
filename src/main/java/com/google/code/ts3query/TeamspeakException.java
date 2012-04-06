@@ -14,7 +14,7 @@ public class TeamspeakException extends IOException {
 	private final String msg;
 	private final String extra_msg;
 
-	protected TeamspeakException(final int id, final String msg, final String extra_msg) {
+	protected TeamspeakException(int id, String msg, String extra_msg) {
 		this.id = id;
 		this.msg = msg;
 		this.extra_msg = extra_msg;
@@ -38,7 +38,7 @@ public class TeamspeakException extends IOException {
 	 */
 	@Override
 	public String getMessage() {
-		final String message = "#" + id + ": " + msg;
+		String message = "#" + id + ": " + msg;
 		if (StringUtils.isNotEmpty(extra_msg)) {
 			return message + " (" + extra_msg + ")";
 		} else {

@@ -115,7 +115,7 @@ public class VirtualServer extends ManagedEntity<VirtualServers> {
 	/**
 	 * Send a message to this server.
 	 */
-	public void sendMessage(final String message) {
+	public void sendMessage(String message) {
 		server.sendTextMessage(TargetMode.server, getId(), message);
 	}
 }

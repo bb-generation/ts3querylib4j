@@ -24,7 +24,7 @@ public class TeamspeakCommand {
 	 * @param keyword
 	 *            the keyword
 	 */
-	public TeamspeakCommand(final String keyword) {
+	public TeamspeakCommand(String keyword) {
 		this.keyword = keyword;
 		this.parameters = new HashMap<String, Object>();
 		this.options = new HashSet<Object>();
@@ -40,7 +40,7 @@ public class TeamspeakCommand {
 	 *            a non-null value
 	 * @return this command for chaining
 	 */
-	public TeamspeakCommand with(final String key, final Object value) {
+	public TeamspeakCommand with(String key, Object value) {
 		if (key == null || value == null) {
 			return this;
 		}
@@ -58,9 +58,9 @@ public class TeamspeakCommand {
 	 *            a non-null map
 	 * @return this for command chaining
 	 */
-	public <V extends Object> TeamspeakCommand with(final Map<String, V> parameters) {
+	public <V extends Object> TeamspeakCommand with(Map<String, V> parameters) {
 		if (parameters != null) {
-			for (final Entry<String, V> entry : parameters.entrySet()) {
+			for (Entry<String, V> entry : parameters.entrySet()) {
 				with(entry.getKey(), entry.getValue());
 			}
 		}
@@ -74,7 +74,7 @@ public class TeamspeakCommand {
 	 *            a non-null option
 	 * @return this command for chaining
 	 */
-	public TeamspeakCommand option(final Object... options) {
+	public TeamspeakCommand option(Object... options) {
 		if (options == null) {
 			return this;
 		}
@@ -87,24 +87,24 @@ public class TeamspeakCommand {
 	 */
 	@Override
 	public String toString() {
-		final StringBuilder command = new StringBuilder(keyword);
-		for (final Entry<String, Object> param : parameters.entrySet()) {
-			final String key = param.getKey();
-			final Object value = param.getValue();
+		StringBuilder command = new StringBuilder(keyword);
+		for (Entry<String, Object> param : parameters.entrySet()) {
+			String key = param.getKey();
+			Object value = param.getValue();
 
 			if (value.getClass().isArray()) {
-				final int length = Array.getLength(value);
+				int length = Array.getLength(value);
 				for (int i = 0; i < length; i++) {
-					final String v = TeamspeakConnection.escape(String.valueOf(Array.get(value, i)));
+					String v = TeamspeakConnection.escape(String.valueOf(Array.get(value, i)));
 					command.append(i == 0 ? ' ' : '|').append(key).append('=').append(v);
 				}
 			} else {
-				final String v = TeamspeakConnection.escape(String.valueOf(value));
+				String v = TeamspeakConnection.escape(String.valueOf(value));
 				command.append(' ').append(key).append('=').append(v);
 			}
 		}
 
-		for (final Object option : options) {
+		for (Object option : options) {
 			command.append(' ').append('-').append(TeamspeakConnection.escape(String.valueOf(option)));
 		}
 

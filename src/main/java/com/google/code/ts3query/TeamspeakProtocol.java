@@ -12,7 +12,7 @@ public class TeamspeakProtocol {
 
 	private final TeamspeakConnection server;
 
-	public TeamspeakProtocol(final TeamspeakConnection server) {
+	public TeamspeakProtocol(TeamspeakConnection server) {
 		this.server = server;
 	}
 
@@ -32,7 +32,7 @@ public class TeamspeakProtocol {
 	 * 
 	 * @param msg
 	 */
-	public void gm(final String msg) {
+	public void gm(String msg) {
 		send(command("gm").with("msg", msg));
 	}
 
@@ -53,7 +53,7 @@ public class TeamspeakProtocol {
 	 * 
 	 * @param parameters
 	 */
-	public void instanceedit(final Map<String, ? extends Object> parameters) {
+	public void instanceedit(Map<String, ? extends Object> parameters) {
 		send(command("instanceedit").with(parameters));
 	}
 
@@ -76,7 +76,7 @@ public class TeamspeakProtocol {
 	 * @param username
 	 * @param password
 	 */
-	public void login(final String username, final String password) {
+	public void login(String username, String password) {
 		send(command("login").with("client_login_name", username).with("client_login_password", password));
 	}
 
@@ -105,7 +105,7 @@ public class TeamspeakProtocol {
 	 *            clientID|channelID|serverID, depending on target mode
 	 * @param message
 	 */
-	public void sendTextMessage(final TargetMode mode, final long targetId, final String message) {
+	public void sendTextMessage(TargetMode mode, long targetId, String message) {
 		send(command("sendtextmessage").with("targetmode", 1 + mode.ordinal()).with("target", targetId).with("msg",
 				message));
 	}
@@ -119,7 +119,7 @@ public class TeamspeakProtocol {
 	 * @param serverId
 	 *            serverID
 	 */
-	public void use(final int serverId) {
+	public void use(int serverId) {
 		send(command("use").with("sid", serverId));
 	}
 
@@ -151,10 +151,10 @@ public class TeamspeakProtocol {
 	 * @return the response sent back by the server or <code>null</code> if the
 	 *         server sent none
 	 */
-	public TeamspeakResponse send(final TeamspeakCommand command) {
+	public TeamspeakResponse send(TeamspeakCommand command) {
 		try {
 			return server.execute(command);
-		} catch (final IOException ex) {
+		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
@@ -169,21 +169,21 @@ public class TeamspeakProtocol {
 	 *            the instance to inject this server into
 	 * @return the object with this server injected
 	 */
-	public <T> T inject(final T object) {
+	public <T> T inject(T object) {
 		// look at both class and super class of object
-		final Class<? extends Object> clazz = object.getClass();
+		Class<? extends Object> clazz = object.getClass();
 		inject(object, clazz.getDeclaredFields());
 		inject(object, clazz.getSuperclass().getDeclaredFields());
 		return object;
 	}
 
-	private <T> void inject(final T object, final Field[] fields) {
-		for (final Field field : fields) {
+	private <T> void inject(T object, Field[] fields) {
+		for (Field field : fields) {
 			if (field.getType().equals(getClass())) {
 				try {
 					field.setAccessible(true);
 					field.set(object, this);
-				} catch (final Exception ex) {
+				} catch (Exception ex) {
 					throw new RuntimeException(ex);
 				}
 			}
@@ -197,7 +197,7 @@ public class TeamspeakProtocol {
 	 *            the keyword for the command
 	 * @return a new command instance
 	 */
-	private static TeamspeakCommand command(final String keyword) {
+	private static TeamspeakCommand command(String keyword) {
 		return new TeamspeakCommand(keyword);
 	}
 }

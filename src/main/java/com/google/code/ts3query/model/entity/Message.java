@@ -30,7 +30,7 @@ public class Message extends ManagedEntity<Messages> {
 		manager.delete(msgid);
 	}
 
-	public void setFlag(final boolean read) {
+	public void setFlag(boolean read) {
 		manager.updateFlag(msgid, read);
 	}
 }

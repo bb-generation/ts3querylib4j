@@ -34,7 +34,7 @@ public class Client extends Entity {
 	/**
 	 * Send a message to this client.
 	 */
-	public void sendMessage(final String message) {
+	public void sendMessage(String message) {
 		server.sendTextMessage(TargetMode.client, getClientId(), message);
 	}
 }

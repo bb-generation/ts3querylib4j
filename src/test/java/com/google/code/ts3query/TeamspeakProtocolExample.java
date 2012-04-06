@@ -6,13 +6,13 @@ import com.google.code.ts3query.model.entity.WhoAmI;
 
 public class TeamspeakProtocolExample {
 
-	public static void main(final String[] args) throws IOException {
-		final String host = args[0];
-		final String username = args[1]; // probably "serveradmin"
-		final String password = args[2]; // this is in your server log
+	public static void main(String[] args) throws IOException {
+		String host = args[0];
+		String username = args[1]; // probably "serveradmin"
+		String password = args[2]; // this is in your server log
 
-		final TeamspeakConnection conn = new TeamspeakConnection(host);
-		final TeamspeakProtocol server = new TeamspeakProtocol(conn);
+		TeamspeakConnection conn = new TeamspeakConnection(host);
+		TeamspeakProtocol server = new TeamspeakProtocol(conn);
 
 		try {
 			server.login(username, password);
@@ -21,7 +21,7 @@ public class TeamspeakProtocolExample {
 			server.use(1);
 
 			// get some information about ourselves and print it out
-			final WhoAmI me = server.whoAmI();
+			WhoAmI me = server.whoAmI();
 			System.err.println("I'm " + me.getClientNickname() + " connected as " + me.getClientLoginName()
 					+ " in channel #" + me.getClientChannelId() + " on server #" + me.getVirtualServerId());
 

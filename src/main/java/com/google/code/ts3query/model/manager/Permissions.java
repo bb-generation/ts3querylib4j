@@ -25,7 +25,7 @@ public class Permissions extends Entity {
 	 * @param permID
 	 * @return <code>t=0 id1=1 id2=0 p=4353|t=0 id1=2 id2=0 p=4353</code>
 	 */
-	public TeamspeakResponse find(final int permID) {
+	public TeamspeakResponse find(int permID) {
 		// TODO turn into object
 		return send(command("permfind").with("permid", permID));
 	}
@@ -53,7 +53,7 @@ public class Permissions extends Entity {
 	 * @return
 	 *         <code>t=0 id1=5 id2=0 p=37 v=1 n=0 s=0|t=0 id1=5 id2=0 p=38 v=1 n=0 s=0 ...</code>
 	 */
-	public TeamspeakResponse getOverview(final int channelID, final int clientDBID, final int permID) {
+	public TeamspeakResponse getOverview(int channelID, int clientDBID, int permID) {
 		// TODO turn into object
 		return send(command("permoverview").with("cid", channelID).with("cldbid", clientDBID).with("permid", permID));
 	}
@@ -64,7 +64,7 @@ public class Permissions extends Entity {
 	 * @param permissionNames
 	 * @return <code>permsid=b_serverinstance_help_view permid=4353</code>
 	 */
-	public TeamspeakResponse getByName(final String... permissionNames) {
+	public TeamspeakResponse getByName(String... permissionNames) {
 		return send(command("permidgetbyname").with("permsid", permissionNames));
 	}
 }

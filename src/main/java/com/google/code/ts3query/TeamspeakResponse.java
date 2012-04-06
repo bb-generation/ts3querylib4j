@@ -27,7 +27,7 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 	 * @param response
 	 *            the parsed data received from a server.
 	 */
-	protected TeamspeakResponse(final List<SortedMap<String, String>> response) {
+	protected TeamspeakResponse(List<SortedMap<String, String>> response) {
 		this.response = Collections.unmodifiableList(response);
 	}
 
@@ -50,9 +50,9 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 			return null;
 		}
 
-		final StringBuilder string = new StringBuilder();
-		for (final Map<String, String> line : response) {
-			for (final Entry<String, String> entry : line.entrySet()) {
+		StringBuilder string = new StringBuilder();
+		for (Map<String, String> line : response) {
+			for (Entry<String, String> entry : line.entrySet()) {
 				string.append(entry.getKey()).append("=").append(entry.getValue()).append("\r\n");
 			}
 			string.append("--------").append("\r\n");
@@ -75,29 +75,29 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 	 * @return a list of instances of the model class populated with data from
 	 *         this response
 	 */
-	public <T> List<T> asList(final Class<T> clazz, final String... keysToIgnore) {
-		final List<T> result = new ArrayList<T>(response == null ? 0 : response.size());
+	public <T> List<T> asList(Class<T> clazz, String... keysToIgnore) {
+		List<T> result = new ArrayList<T>(response == null ? 0 : response.size());
 
 		if (response == null) {
 			return result;
 		}
 
-		for (final Map<String, String> entries : response) {
+		for (Map<String, String> entries : response) {
 			result.add(create(clazz, entries, keysToIgnore));
 		}
 
 		return result;
 	}
 
-	public <E extends ManagedEntity<Manager>, Manager> List<E> asManagedList(final Class<E> clazz, final Manager manager, final String... keysToIgnore) {
-		final List<E> result = new ArrayList<E>(response == null ? 0 : response.size());
+	public <E extends ManagedEntity<Manager>, Manager> List<E> asManagedList(Class<E> clazz, Manager manager, String... keysToIgnore) {
+		List<E> result = new ArrayList<E>(response == null ? 0 : response.size());
 
 		if (response == null) {
 			return result;
 		}
 
-		for (final Map<String, String> entries : response) {
-			final E entity = create(clazz, entries, keysToIgnore);
+		for (Map<String, String> entries : response) {
+			E entity = create(clazz, entries, keysToIgnore);
 			result.add(ManagedEntity.manage(entity, manager));
 		}
 
@@ -120,12 +120,12 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 	 * @return an instance of the model class populated with data from this
 	 *         response
 	 */
-	public <T> T as(final Class<T> clazz, final String... keysToIgnore) {
+	public <T> T as(Class<T> clazz, String... keysToIgnore) {
 		if (response == null) {
 			return null;
 		}
 
-		final int lines = response.size();
+		int lines = response.size();
 		if (lines > 1) {
 			throw new IllegalStateException("There are  " + lines + " lines");
 		}
@@ -146,10 +146,10 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 	 * 
 	 * @return an instance of the class populated with the provided data
 	 */
-	private <T> T create(final Class<T> clazz, final Map<String, String> entries, final String... keysToIgnore) {
+	private <T> T create(Class<T> clazz, Map<String, String> entries, String... keysToIgnore) {
 		try {
 			return populate(clazz.newInstance(), entries, keysToIgnore);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}
 	}
@@ -179,21 +179,21 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 	 * @throws Exception
 	 *             when reflection doesn't work as expected
 	 */
-	private <T> T populate(final T obj, final Map<String, String> entries, final String... keysToIgnore)
+	private <T> T populate(T obj, Map<String, String> entries, String... keysToIgnore)
 			throws Exception {
-		final Class<?> clazz = obj.getClass();
-		for (final Entry<String, String> entry : entries.entrySet()) {
-			final String key = entry.getKey();
-			final String value = entry.getValue();
+		Class<?> clazz = obj.getClass();
+		for (Entry<String, String> entry : entries.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue();
 
 			if (ArrayUtils.contains(keysToIgnore, key)) {
 				continue;
 			}
 
-			final Field field = clazz.getDeclaredField(key);
+			Field field = clazz.getDeclaredField(key);
 			field.setAccessible(true);
 
-			final Class<?> type = field.getType();
+			Class<?> type = field.getType();
 			if (type.equals(String.class)) {
 				field.set(obj, value);
 			} else if (type.equals(Integer.TYPE)) {
@@ -208,8 +208,8 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
 				field.set(obj, new Date(Long.parseLong(value) * 1000));
 			} else if (type.isEnum()) {
 				// map to enum value by ordinal
-				final Object[] enumConstants = type.getEnumConstants();
-				final int ordinal = Integer.parseInt(value);
+				Object[] enumConstants = type.getEnumConstants();
+				int ordinal = Integer.parseInt(value);
 				if (ordinal > enumConstants.length) {
 					throw new IllegalArgumentException("Invalid ordinal for enum " + type.getName() + ": " + ordinal);
 				}

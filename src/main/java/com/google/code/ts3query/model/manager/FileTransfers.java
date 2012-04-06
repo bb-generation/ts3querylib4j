@@ -17,7 +17,7 @@ public class FileTransfers extends Entity implements Iterable<FileTransfer> {
 	 * @param channelPassword
 	 * @param dirPath
 	 */
-	public void createDirectory(final long channelID, final String channelPassword, final String dirPath) {
+	public void createDirectory(long channelID, String channelPassword, String dirPath) {
 		send(command("ftcreatedir").with("cid", channelID).with("cpw", channelPassword).with("dirname", dirPath));
 	}
 
@@ -29,7 +29,7 @@ public class FileTransfers extends Entity implements Iterable<FileTransfer> {
 	 * @param filePath
 	 *            one more more file paths to delete
 	 */
-	public void deleteFile(final long channelID, final String channelPassword, final String... filePath) {
+	public void deleteFile(long channelID, String channelPassword, String... filePath) {
 		send(command("ftdeletefile").with("cid", channelID).with("cpw", channelPassword).with("name", filePath));
 	}
 
@@ -42,7 +42,7 @@ public class FileTransfers extends Entity implements Iterable<FileTransfer> {
 	 * @param filePath
 	 *            one more more file paths to get information about
 	 */
-	public TeamspeakResponse getFileInfo(final long channelID, final String channelPassword, final String... filePath) {
+	public TeamspeakResponse getFileInfo(long channelID, String channelPassword, String... filePath) {
 		return send(command("ftgetfileinfo").with("cid", channelID).with("cpw", channelPassword).with("name", filePath));
 	}
 
@@ -50,7 +50,7 @@ public class FileTransfers extends Entity implements Iterable<FileTransfer> {
 	 * Displays a list of files and directories stored in the specified channels
 	 * file repository.
 	 */
-	public List<File> getFileList(final long channelID, final String channelPassword, final String filePath) {
+	public List<File> getFileList(long channelID, String channelPassword, String filePath) {
 		return send(command("ftgetfilelist").with("cid", channelID).with("cpw", channelPassword).with("path", filePath))
 				.asList(File.class, "cid", "path");
 	}
@@ -82,8 +82,8 @@ public class FileTransfers extends Entity implements Iterable<FileTransfer> {
 	 * @param targetChannelPassword
 	 *            optional, <code>null</code> to skip
 	 */
-	public void renameFile(final long channelID, final String channelPassword, final String oldFilePath,
-			final String newFilePath, final Long targetChannelID, final String targetChannelPassword) {
+	public void renameFile(long channelID, String channelPassword, String oldFilePath,
+			String newFilePath, Long targetChannelID, String targetChannelPassword) {
 		send(command("ftrenamefile").with("cid", channelID).with("cpw", channelPassword).with("oldname", oldFilePath)
 				.with("newname", newFilePath).with("tcid", targetChannelID).with("tcpw", targetChannelPassword));
 	}
@@ -95,7 +95,7 @@ public class FileTransfers extends Entity implements Iterable<FileTransfer> {
 	 * @param delete
 	 *            <code>true</code> if the file should be deleted on the server
 	 */
-	public void stop(final long serverFileTransferID, final boolean delete) {
+	public void stop(long serverFileTransferID, boolean delete) {
 		send(command("ftstop").with("serverftfid", serverFileTransferID).with("delete", delete ? 1 : 0));
 	}
 

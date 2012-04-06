@@ -17,7 +17,7 @@ public abstract class ManagedEntity<Manager> extends Entity {
 	 *            the manager instance
 	 * @return the managed entity
 	 */
-	public static <E extends ManagedEntity<M>, M> E manage(final E entity, final M manager) {
+	public static <E extends ManagedEntity<M>, M> E manage(E entity, M manager) {
 		entity.manager = manager;
 		return entity;
 	}

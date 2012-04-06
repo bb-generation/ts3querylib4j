@@ -21,7 +21,7 @@ public class VirtualServers extends Entity {
 	 * @return
 	 *         <code>sid=5 token=sbJ0PhLvQfbyEREresjYgCidWN52XKPYARSf7n60></code>
 	 */
-	public TeamspeakResponse create(final String name, final Map<String, ? extends Object> parameters) {
+	public TeamspeakResponse create(String name, Map<String, ? extends Object> parameters) {
 		return send(command("servercreate").with("virtualserver_name", name).with(parameters));
 	}
 
@@ -31,7 +31,7 @@ public class VirtualServers extends Entity {
 	 * 
 	 * @param parameters
 	 */
-	public void edit(final Map<String, ? extends Object> parameters) {
+	public void edit(Map<String, ? extends Object> parameters) {
 		send(command("serveredit").with(parameters));
 	}
 
@@ -54,8 +54,8 @@ public class VirtualServers extends Entity {
 	 * @param port
 	 * @return the server id
 	 */
-	public int getServerIdByPort(final int port) {
-		final TeamspeakCommand cmd = command("serveridgetbyport").with("virtualserver_port", port);
+	public int getServerIdByPort(int port) {
+		TeamspeakCommand cmd = command("serveridgetbyport").with("virtualserver_port", port);
 		return Integer.parseInt(send(cmd).getFirstResponse().get("server_id"));
 	}
 
@@ -81,7 +81,7 @@ public class VirtualServers extends Entity {
 	 * @return
 	 *         <code>virtualserver_id=1 virtualserver_port=9987 virtualserver_status=online virtualserver_clientsonline=6 ...</code>
 	 */
-	// public List<VirtualServer> serverlist(final ServerListOption... options)
+	// public List<VirtualServer> serverlist(ServerListOption... options)
 	// {
 	// return send(command("serverlist").option((Object[])
 	// options)).asList(VirtualServer.class);
@@ -104,7 +104,7 @@ public class VirtualServers extends Entity {
 	 * @param channelID
 	 *            an optional channel ID, <code>null</code> to skip
 	 */
-	public void register(final Event event, final Integer channelID) {
+	public void register(Event event, Integer channelID) {
 		send(command("servernotifyregister").with("event", event).with("id", channelID));
 	}
 

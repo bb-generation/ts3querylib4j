@@ -30,8 +30,8 @@ public class PrivilegeKeys extends Entity implements Iterable<Token> {
 	 *            optional, <code>null</code> to skip
 	 * @return a new token
 	 */
-	public String add(final TokenType type, final int groupId, final int channelId, final String description,
-			final Object customFieldSet) {
+	public String add(TokenType type, int groupId, int channelId, String description,
+			Object customFieldSet) {
 		return send(
 				command("privilegekeyadd").with("tokentype", type.ordinal()).with("tokenid1", groupId).with("tokenid2",
 						channelId).with("tokendescription", description).with("tokencustomset", customFieldSet))
@@ -43,7 +43,7 @@ public class PrivilegeKeys extends Entity implements Iterable<Token> {
 	 * 
 	 * @param tokenKey
 	 */
-	public void delete(final String tokenKey) {
+	public void delete(String tokenKey) {
 		send(command("privilegekeydelete").with("token", tokenKey));
 	}
 
@@ -54,7 +54,7 @@ public class PrivilegeKeys extends Entity implements Iterable<Token> {
 	 * 
 	 * @param tokenKey
 	 */
-	public void use(final String tokenKey) {
+	public void use(String tokenKey) {
 		send(command("privilegekeyuse").with("token", tokenKey));
 	}
 

@@ -79,7 +79,7 @@ public class Channel extends Entity {
 	/**
 	 * Send a message to this channel.
 	 */
-	public void sendMessage(final String message) {
+	public void sendMessage(String message) {
 		server.sendTextMessage(TargetMode.channel, getId(), message);
 	}
 }

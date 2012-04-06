@@ -24,8 +24,8 @@ public class Tokens extends Entity implements Iterable<Token> {
 		return getList().iterator();
 	}
 
-	public Token getToken(final String tokenKey) {
-		for (final Token token : getList()) {
+	public Token getToken(String tokenKey) {
+		for (Token token : getList()) {
 			if (token.getToken().equals(tokenKey)) {
 				return token;
 			}
@@ -33,11 +33,11 @@ public class Tokens extends Entity implements Iterable<Token> {
 		return null;
 	}
 
-	public String addToken(final ServerGroup serverGroup) {
+	public String addToken(ServerGroup serverGroup) {
 		return add(TokenType.servergroup, serverGroup.getId(), 0);
 	}
 
-	public String addToken(final Channel channel) {
+	public String addToken(Channel channel) {
 		// TODO is PID == CGID?
 		return add(TokenType.channel, channel.getPid(), channel.getId());
 	}
@@ -56,7 +56,7 @@ public class Tokens extends Entity implements Iterable<Token> {
 	 * 
 	 * @return <code>token=eKnFZQ9EK7G7MhtuQB6+N2B1PNZZ6OZL3ycDp2OW</code>
 	 */
-	private String add(final TokenType type, final int groupId, final int channelId) {
+	private String add(TokenType type, int groupId, int channelId) {
 		return send(
 				command("tokenadd").with("tokentype", type.ordinal()).with("tokenid1", groupId).with("tokenid2",
 						channelId)).getFirstResponse().get("token");
@@ -67,7 +67,7 @@ public class Tokens extends Entity implements Iterable<Token> {
 	 * 
 	 * @param tokenKey
 	 */
-	public void delete(final String tokenKey) {
+	public void delete(String tokenKey) {
 		send(command("tokendelete").with("token", tokenKey));
 	}
 
@@ -78,7 +78,7 @@ public class Tokens extends Entity implements Iterable<Token> {
 	 * 
 	 * @param tokenKey
 	 */
-	public void use(final String tokenKey) {
+	public void use(String tokenKey) {
 		send(command("tokenuse").with("token", tokenKey));
 	}
 

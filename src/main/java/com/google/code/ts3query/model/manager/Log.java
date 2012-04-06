@@ -17,7 +17,7 @@ public class Log extends Entity {
 	 * @param loglevel
 	 * @param logmsg
 	 */
-	public void add(final LogLevel level, final String logmsg) {
+	public void add(LogLevel level, String logmsg) {
 		send(command("logadd").with("loglevel", 1 + level.ordinal()).with("logmsg", logmsg));
 	}
 
@@ -30,7 +30,7 @@ public class Log extends Entity {
 	 * 
 	 * @param limitcount
 	 */
-	public List<LogEntry> getList(final int limitcount) {
+	public List<LogEntry> getList(int limitcount) {
 		return send(command("logview").with("limitcount", limitcount)).asList(LogEntry.class);
 	}
 
