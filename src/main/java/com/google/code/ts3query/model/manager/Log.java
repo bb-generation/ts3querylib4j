@@ -8,30 +8,30 @@ import com.google.code.ts3query.option.LogLevel;
 
 public class Log extends Entity {
 
-	/**
-	 * Writes a custom entry into the servers log. Depending on your
-	 * permissions, you'll be able to add entries into the server instance log
-	 * and/or your virtual servers log. The loglevel parameter specifies the
-	 * type of the entry.
-	 * 
-	 * @param loglevel
-	 * @param logmsg
-	 */
-	public void add(LogLevel level, String logmsg) {
-		send(command("logadd").with("loglevel", 1 + level.ordinal()).with("logmsg", logmsg));
-	}
+  /**
+   * Writes a custom entry into the servers log. Depending on your permissions,
+   * you'll be able to add entries into the server instance log and/or your
+   * virtual servers log. The loglevel parameter specifies the type of the
+   * entry.
+   * 
+   * @param loglevel
+   * @param logmsg
+   */
+  public void add(LogLevel level, String logmsg) {
+    send(command("logadd").with("loglevel", 1 + level.ordinal()).with("logmsg", logmsg));
+  }
 
-	/**
-	 * Displays a specified number of entries from the servers log. Depending on
-	 * your permissions, you'll receive entries from the server instance log
-	 * and/or your virtual server log. Using a combination of the comparator and
-	 * timestamp parameters allows you to filter for log entries based on a
-	 * specific date/time.
-	 * 
-	 * @param limitcount
-	 */
-	public List<LogEntry> getList(int limitcount) {
-		return send(command("logview").with("limitcount", limitcount)).asList(LogEntry.class);
-	}
+  /**
+   * Displays a specified number of entries from the servers log. Depending on
+   * your permissions, you'll receive entries from the server instance log
+   * and/or your virtual server log. Using a combination of the comparator and
+   * timestamp parameters allows you to filter for log entries based on a
+   * specific date/time.
+   * 
+   * @param limitcount
+   */
+  public List<LogEntry> getList(int limitcount) {
+    return send(command("logview").with("limitcount", limitcount)).asList(LogEntry.class);
+  }
 
 }
