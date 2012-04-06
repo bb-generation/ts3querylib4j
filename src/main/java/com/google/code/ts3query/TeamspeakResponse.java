@@ -2,15 +2,14 @@ package com.google.code.ts3query;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.Map.Entry;
-
-import org.apache.commons.lang.ArrayUtils;
+import java.util.SortedMap;
 
 import com.google.code.ts3query.model.ManagedEntity;
 
@@ -149,7 +148,7 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
    */
   private <T> T create(Class<T> clazz, Map<String, String> entries, String... keysToIgnore) {
     try {
-      return populate(clazz.newInstance(), entries, keysToIgnore);
+      return populate(clazz.newInstance(), entries, Arrays.asList(keysToIgnore));
     } catch (Exception ex) {
       throw new RuntimeException(ex);
     }
@@ -179,14 +178,14 @@ public class TeamspeakResponse implements Iterable<SortedMap<String, String>> {
    * @throws Exception
    *           when reflection doesn't work as expected
    */
-  private <T> T populate(T obj, Map<String, String> entries, String... keysToIgnore)
+  private <T> T populate(T obj, Map<String, String> entries, List<String> keysToIgnore)
       throws Exception {
     Class<?> clazz = obj.getClass();
     for (Entry<String, String> entry : entries.entrySet()) {
       String key = entry.getKey();
       String value = entry.getValue();
 
-      if (ArrayUtils.contains(keysToIgnore, key)) {
+      if (keysToIgnore.contains(key)) {
         continue;
       }
 

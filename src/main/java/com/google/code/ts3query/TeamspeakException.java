@@ -2,9 +2,6 @@ package com.google.code.ts3query;
 
 import java.io.IOException;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 /**
  * An exception caused while executing a server query command on the server.
  */
@@ -38,16 +35,10 @@ public class TeamspeakException extends IOException {
    */
   @Override
   public String getMessage() {
-    String message = "#" + id + ": " + msg;
-    if (StringUtils.isNotEmpty(extra_msg)) {
-      return message + " (" + extra_msg + ")";
+    if (extra_msg == null || extra_msg.isEmpty()) {
+      return String.format("#%d: %s", id, msg);
     } else {
-      return message;
+      return String.format("#%d: %s (%s)", id, msg, extra_msg);
     }
-  }
-
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this).append("id", id).append("msg", getMessage()).toString();
   }
 }

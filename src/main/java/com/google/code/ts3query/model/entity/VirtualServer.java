@@ -2,8 +2,7 @@ package com.google.code.ts3query.model.entity;
 
 import java.util.List;
 
-import org.apache.commons.lang.time.DurationFormatUtils;
-
+import com.google.code.ts3query.Utils;
 import com.google.code.ts3query.model.ManagedEntity;
 import com.google.code.ts3query.model.manager.Complains;
 import com.google.code.ts3query.model.manager.VirtualServers;
@@ -35,12 +34,7 @@ public class VirtualServer extends ManagedEntity<VirtualServers> {
   }
 
   public String getUptime() {
-    String uptime = DurationFormatUtils
-        .formatDuration(virtualserver_uptime, "d'd' H'h' m'm' ss's'");
-    while (uptime.startsWith("0")) {
-      uptime = uptime.substring(3);
-    }
-    return uptime;
+    return Utils.formatDuration(virtualserver_uptime);
   }
 
   public String getStatus() {

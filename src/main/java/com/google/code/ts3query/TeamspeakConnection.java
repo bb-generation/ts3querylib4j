@@ -14,9 +14,6 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 public class TeamspeakConnection implements Closeable {
 
   private static final Logger log = Logger.getLogger(TeamspeakConnection.class.getName());
@@ -105,7 +102,7 @@ public class TeamspeakConnection implements Closeable {
 
     String line;
     while ((line = input.readLine()) != null) {
-      if (StringUtils.isEmpty(line)) {
+      if (line.isEmpty()) {
         continue;
       }
 
@@ -227,7 +224,9 @@ public class TeamspeakConnection implements Closeable {
 
   @Override
   public String toString() {
-    return new ToStringBuilder(this).append("host", socket.getInetAddress())
-        .append("port", socket.getPort()).toString();
+    return String.format("%s[%s:%d]",
+        getClass().getSimpleName(),
+        socket.getInetAddress(),
+        socket.getPort());
   }
 }

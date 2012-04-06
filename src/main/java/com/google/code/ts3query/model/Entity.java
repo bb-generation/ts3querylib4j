@@ -1,8 +1,5 @@
 package com.google.code.ts3query.model;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
 import com.google.code.ts3query.TeamspeakCommand;
 import com.google.code.ts3query.TeamspeakProtocol;
 import com.google.code.ts3query.TeamspeakResponse;
@@ -34,10 +31,4 @@ public abstract class Entity {
   protected TeamspeakResponse send(TeamspeakCommand command) {
     return server.send(command);
   }
-
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-  }
-
 }
